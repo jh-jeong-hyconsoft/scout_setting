@@ -1,0 +1,3 @@
+#!/bin/bash
+
+insmod /lib/modules/5.15.136-tegra/kernel/drivers/net/can/gs_usb.ko

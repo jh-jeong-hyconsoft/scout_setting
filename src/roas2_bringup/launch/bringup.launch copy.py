@@ -1,0 +1,52 @@
+import os
+import launch
+import launch_ros
+
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
+from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
+from launch_ros.actions import Node
+
+from launch_ros.substitutions import FindPackageShare
+
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+
+
+def generate_launch_description():
+
+
+    # Scout 2.0
+    tracer_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            get_package_share_directory('roas2_bringup'), '/launch/include/scout.launch.py']
+            ),)
+            
+    # Sonar
+    sonar_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            get_package_share_directory('roas2_bringup'), '/launch/include/sonar.launch.py']
+            ),)
+            
+    # Relay
+    relay_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            get_package_share_directory('roas2_bringup'), '/launch/include/relay.launch.py']
+            ),)
+
+    # RViz
+    rviz_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            get_package_share_directory('roas2_bringup'), '/launch/view_robot.launch.py']
+            ),)
+
+    return LaunchDescription([
+        tracer_bringup,
+        rviz_bringup,
+        sonar_bringup,
+        relay_bringup
+        
+    ])
+
+    
+

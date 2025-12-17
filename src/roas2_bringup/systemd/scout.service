@@ -1,0 +1,10 @@
+[Unit]
+After=NetworkManager.service time-sync.target
+
+[Service]
+Type=simple
+User=scout
+ExecStart=/usr/sbin/scout
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,77 @@
+### ekf config file ###
+/**:
+  ros__parameters:
+    debug: false
+    debug_out_file: /home/scout/tmp/ekf.txt
+    # 필터 출력 주파수 (Hz)
+    frequency: 20.0
+
+    transform_time_offset: 0.02 # 0.03 
+    transform_timeout: 0.2  # 0.2
+    predict_to_current_time: true
+    smooth_lagged_data: false
+    
+    sensor_timeout: 1.0
+
+    # 2D 모드 사용 여부 (플래너 환경에서 필요시 true)
+    two_d_mode: false
+
+    # 가속도 정보를 출력할지 여부
+    publish_acceleration: false
+
+    # /tf 토픽으로 변환을 방송할지 여부
+    publish_tf: true # false #slam_toolbox 또는 , mapping 사용 시: false
+
+    # 프레임 설정 (로봇에 맞게 변경)
+    use_sim_time: false
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map
+
+    odom0: odom
+    odom0_config: [
+     false, false, false,   # x, y
+     false, false, false,    # yaw
+     true,  true,  false,   # vx, vy
+     false, false, true,    # vyaw
+     false, false, false    # no linear acceleration
+    ]
+    odom0_differential: false
+
+    # pose0 (Frontend) - 주력
+    pose0: pcl_pose_front
+    pose0_config: [
+      true,  true,  false,    # x, y 사용 ← 위치는 여기서만
+      false, false, true,     # yaw 사용
+      false, false, false,
+      false, false, false,
+      false, false, false
+    ]
+    pose0_differential: true
+    pose0_queue_size: 50  # ← 추가
+    pose0_rejection_threshold: 10.0
+    
+    # pose1 (Backend) - 보정만
+    pose1: pcl_pose_back
+    pose1_config: [
+      true, true, false,    # x, y 사용 안함! ← 핵심
+      false, false, true,     # yaw만 보정
+      false, false, false,
+      false, false, false,
+      false, false, false
+    ]
+    pose1_differential: false
+    pose1_queue_size: 5  # ← 최신 것만
+    pose1_rejection_threshold: 10.0
+
+    # IMU input (optional)
+    imu0: ouster/imu
+    imu0_config: [
+      false, false, false,   # no position
+      false, false, false,   # no orientation
+      false, false, false,   # no linear velocity
+      false, false, true,    # use yaw rate
+      false, false, false    # no linear acceleration
+    ]
+    imu0_differential: false

@@ -1,0 +1,29 @@
+/**:
+  ros__parameters:
+    # 공통
+    frequency: 30.0
+    two_d_mode: true
+    publish_filtered_gps: false # 필터된 NavSatFix 재출력 불필요
+
+    # 프레임
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map # EKF와 동일하게 map 기준
+
+    # 고도/자기편차 (필요 시 수정)
+    zero_altitude: true # 2D 운용이면 고도 0으로 평탄화
+    magnetic_declination_radians: 0.0 # 서울 근처는 소수 라디안 단위로 음수(~ -0.14 rad) 정도. 추후 보정 가능
+    yaw_offset: 0.0 # IMU Yaw 기준과 차량 Heading 오프셋 있으면 보정
+
+    # 딜레이 & 기타
+    delay: 0.0
+    use_odometry_yaw: false # GNSS IMU로 yaw 제공되므로 비활성화
+    wait_for_datum: false # 외부 datum lock이 꼭 필요하면 true
+    dynamic_datum: false
+    datum: [37.5732123, 126.9849123, 32.600]
+
+    # 좌표계/가속도
+    transform_timeout: 0.2
+    use_imu_heading: true
+    imu0_remove_gravitational_acceleration: true

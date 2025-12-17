@@ -1,0 +1,7 @@
+[Unit]
+After=network.service time-sync.target
+[Service]
+Type=simple
+ExecStart=/bin/sh -e /usr/sbin/can_driver
+[Install]
+WantedBy=multi-user.target

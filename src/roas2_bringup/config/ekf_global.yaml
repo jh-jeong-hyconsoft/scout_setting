@@ -1,0 +1,73 @@
+/**:
+  ros__parameters:
+    # 기본
+    frequency: 30.0
+    sensor_timeout: 0.3
+    two_d_mode: true
+    publish_tf: true
+
+    # 프레임
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map
+
+    # 1) GNSS Odom (navsat_transform 출력)
+    odom1: odometry/gps
+    odom1_config: [
+      true, true, false, # x, y, z(2D면 false)
+      false, false, true, # roll, pitch, yaw (INS 자세 신뢰되면 roll/pitch true로 변경 가능)
+      false, false, false, # vx, vy, vz
+      false, false, false, # vroll, vpitch, vyaw
+      false, false, false # ax, ay, az
+    ]
+    odom1_differential: false
+
+    # 2) GNSS IMU (Septentrio)
+    imu0: gnss/imu/data
+    imu0_config: [
+      false, false, false, # 위치 X
+      true, true, true, # orientation (INS 자세 직접 활용)
+      false, false, false, # 선속도 X
+      false, false, true, # yaw rate만 사용
+      false, false, false
+    ]
+    imu0_differential: false
+    imu0_remove_gravitational_acceleration: true
+
+    # pose0 (Frontend) - 주력
+    pose0: pcl_pose_front
+    pose0_config: [
+      true,  true,  false,    # x, y 사용 ← 위치는 여기서만
+      false, false, true,     # yaw 사용
+      false, false, false,
+      false, false, false,
+      false, false, false
+    ]
+    pose0_differential: true
+    pose0_queue_size: 50  # ← 추가
+    pose0_rejection_threshold: 10.0
+    
+    # pose1 (Backend) - 보정만
+    pose1: pcl_pose_back
+    pose1_config: [
+      true, true, false,    # x, y 사용 안함! ← 핵심
+      false, false, true,     # yaw만 보정
+      false, false, false,
+      false, false, false,
+      false, false, false
+    ]
+    pose1_differential: false
+    pose1_queue_size: 5  # ← 최신 것만
+    pose1_rejection_threshold: 10.0
+
+    # 4) 로컬 Odom (보조 속도/회전)
+    odom0: odom
+    odom0_config: [
+      false, false, false,
+      false, false, false,
+      true, false, false, # vx
+      false, false, true, # yaw rate
+      false, false, false
+    ]
+    odom0_differential: false
